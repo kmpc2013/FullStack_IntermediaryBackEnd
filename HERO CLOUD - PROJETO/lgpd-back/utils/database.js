@@ -1,11 +1,11 @@
-import { Sequelize } from 'sequelize';
+import Sequelize from 'sequelize';
 
 const sequelize = new Sequelize (
     'lgpd-database',
     'postgres',
     'postgres',
     {
-        host: 'localhost',
+        host: "127.0.0.1",
         dialect: 'postgres',
         port: 5432,
         define: {
@@ -14,4 +14,4 @@ const sequelize = new Sequelize (
     }
 );
 
-export default sequelize
+export default sequelize;

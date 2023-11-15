@@ -1,11 +1,13 @@
-import Courses from "./Course";
-import Evaluation from "./Evaluation";
-import User from "./User";
+import Course from "./Course.js";
+import Evaluation from "./Evaluation.js";
+import Teacher from "./Teacher.js";
+import User from "./User.js";
 
 const associations = () => {
-    Courses.hasMany(Teacher);
+
+    Course.hasMany(Teacher);
     User.hasMany(Evaluation);
-    Courses.hasMany(Evaluation);
+    Course.hasMany(Evaluation);
 }
 
 const factory = {
