@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { SharedService } from 'src/app/shared/shared.service';
+import { TeacherService } from '../teacher.service';
 
 @Component({
   selector: 'app-teacher-form',
@@ -8,9 +11,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   styleUrls: ['./teacher-form.component.scss']
 })
 export class TeacherFormComponent {
-onSubmit() {
-throw new Error('Method not implemented.');
-}
   teacher: any = {};
   form = new FormGroup({});
   model: any = {};
@@ -38,5 +38,48 @@ throw new Error('Method not implemented.');
       ]
     }]
 
+    constructor(
+      private route: ActivatedRoute,
+      private router: Router,
+      private teacherService: TeacherService,
+      private sharedService: SharedService
+    ) {
+      this.route.queryParams.subscribe(async (params: any) => {
+        if (params.id !== undefined && params.id !== null) {
+          this.teacher = await this.teacherService.get<any>({
+            url: `https://localhost:3000/teacher/${params.id}`,
+            params: {
 
+            }
+          });
+          this.model = this.teacher;
+        } else {
+          this.model = {}
+        }
+      });
+    }
+    
+    async onSubmit(): Promise <void> {
+      if (this.form.valid) {
+        if (this.model?.id !== undefined && this.model?.id !== null) {
+          this.teacher = await this.teacherService.put<any> ({
+            url: `https://localhost:3000/updateTeacher/${this.model?.id}`,
+            params: {
+
+            },
+            data: this.model
+          });
+        } else {
+          delete this.model?.id;
+          await this.teacherService.post<any>({
+            url: `https://localhost:3000/addTeacher`,
+            params: {
+
+            },
+            data: this.model
+        })
+      }
+    }
+    await this.router.navigate(['/teachers']);
+  }
 }

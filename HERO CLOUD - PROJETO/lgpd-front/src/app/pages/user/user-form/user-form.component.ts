@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from "@angular/router";
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {UserService} from "../user.service";
+import { UserService } from "../user.service";
 
 export const GENDERS = [
   {label: 'Homem', value: 'male'},
@@ -73,7 +73,7 @@ export class UserFormComponent {
     this.route.queryParams.subscribe(async (params: any) => {
       if (params.id !== undefined && params.id !== null) {
         this.user = await this.userService.get<any>({
-          url: `http://localhost:8090/api/users/${params.id}`,
+          url: `http://localhost:3000/users/${params.id}`,
           params: {
           }
         });
@@ -88,7 +88,7 @@ export class UserFormComponent {
     if (this.form.valid) {
       if (this.model?.id !== undefined && this.model?.id !== null) {
         this.user = await this.userService.put<any>({
-          url: `http://localhost:8090/api/users/${this.model?.id}`,
+          url: `http://localhost:3000/updateUser/${this.model?.id}`,
           params: {
           },
           data: this.model
@@ -96,13 +96,13 @@ export class UserFormComponent {
       } else {
         delete this.model?.id;
         await this.userService.post<any>({
-          url: `http://localhost:8090/api/users`,
+          url: `http://localhost:3000/addUser`,
           params: {
           },
           data: this.model
         });
       }
     }
-    await this.router.navigate(['/']);
+    await this.router.navigate(['/users']);
   }
 }
