@@ -1,4 +1,3 @@
-// Editado
 import { pkg } from "body-parser";
 import { express } from "express";
 import { router } from "./routes/router.js";
