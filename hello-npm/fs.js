@@ -1,0 +1,10 @@
+import { readFile } from 'fs';
+import { createServer } from 'http';
+
+createServer(function(req,res){
+    readFile('demo-readFile.html', function(err, data){
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write(data);
+        return res.end();
+    })
+}).listen(8080);
